@@ -33,11 +33,12 @@ async function hitungNilai(mapel, jawaban) {
     rows.forEach((element,i) => {
         if (element.kunci == jawaban[i]) {
             if (element.skor) {
-                skor += parseInt(element.skor);
+                skor += element.skor * 1;
+                console.log (skor);
             }
         }
     });
-    return (skor);
+    return (Math.round(skor * 100) / 100);
 }
 
 exports.users = function(req, res) {
@@ -117,6 +118,9 @@ exports.kumpul = function(req, res) {
               	i++;
             }
 
+            skor = Math.round(skor * 100) / 100;
+
+            
             // Save Skor
             connection.query("INSERT INTO `hasil` (`username`, `mapel`, `nilai`, `jawaban`) VALUES (?, ?, ?, ?)",
             [ username, mapel, skor, s ],
