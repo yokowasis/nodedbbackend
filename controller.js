@@ -34,7 +34,6 @@ async function hitungNilai(mapel, jawaban) {
         if (element.kunci == jawaban[i]) {
             if (element.skor) {
                 skor += element.skor * 1;
-                console.log (skor);
             }
         }
     });
@@ -120,7 +119,7 @@ exports.kumpul = function(req, res) {
 
             skor = Math.round(skor * 100) / 100;
 
-            
+
             // Save Skor
             connection.query("INSERT INTO `hasil` (`username`, `mapel`, `nilai`, `jawaban`) VALUES (?, ?, ?, ?)",
             [ username, mapel, skor, s ],
@@ -225,7 +224,7 @@ exports.rekap = async function (req, res) {
         s += nilai + ";";
         s += "" + ";";
         s += element.jawaban + "|";
-        console.log("Process");        
+        // console.log("Process");        
     }
     res.send(s);
 }
