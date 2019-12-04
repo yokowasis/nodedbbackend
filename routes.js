@@ -30,5 +30,7 @@ module.exports = function(app) {
     app.route('/wp-content/themes/unbk/api-18575621/uploadsiswa.php')
         .post(todoList.uploadsiswa);   
         
+    app.route('/wp-content/themes/unbk/api-18575621/showstatuspesertaexcel.php')
+        .post(todoList.rekap);
 };
 

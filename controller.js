@@ -26,6 +26,18 @@ async function getNamaMapel(id) {
     }
 }
 
+async function hitungNilai(mapel, jawaban) {
+    jawaban = jawaban.split(";");
+    var rows = await dbQuery("SELECT * FROM datamapel WHERE kode = ? ORDER BY no", [mapel]);
+    var skor = 0;
+    rows.forEach((element,i) => {
+        if (element.kunci == jawaban[i]) {
+            skor += parseInt(element.skor);
+        }
+    });
+    return (skor);
+}
+
 exports.users = function(req, res) {
     connection.query('SELECT * FROM siswa', function (error, rows, fields){
         if(error){
@@ -189,4 +201,25 @@ exports.uploadsiswa = async function(req, res) {
     res.send("OK");
 };
 
+exports.rekap = async function (req, res) {
+    var mapel = req.query.aktif;
+    var rows = await dbQuery("SELECT * FROM `hasil` WHERE mapel = ? ", [ mapel ]);
+    var i = 0;
+    var s = "";
 
+    for (const element of rows) {
+        i++;
+        var nilai = await hitungNilai(element.mapel,element.jawaban);
+        s += i + ";";
+        s += "-;";
+        s += "-;";
+        s += element.username + ";";
+        s += element.mapel + ";";
+        s += "" + ";";
+        s += nilai + ";";
+        s += "" + ";";
+        s += element.jawaban + "|";
+        console.log("Process");        
+    }
+    res.send(s);
+}

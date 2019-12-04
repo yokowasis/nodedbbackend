@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3212
--- Generation Time: Dec 04, 2019 at 12:52 PM
+-- Generation Time: Dec 04, 2019 at 01:26 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.1.28
 
@@ -48,7 +48,8 @@ CREATE TABLE `hasil` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `mapel` varchar(100) NOT NULL,
-  `nilai` varchar(100) NOT NULL
+  `nilai` varchar(100) NOT NULL,
+  `jawaban` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
