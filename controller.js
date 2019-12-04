@@ -32,7 +32,9 @@ async function hitungNilai(mapel, jawaban) {
     var skor = 0;
     rows.forEach((element,i) => {
         if (element.kunci == jawaban[i]) {
-            skor += parseInt(element.skor);
+            if (element.skor) {
+                skor += parseInt(element.skor);
+            }
         }
     });
     return (skor);
