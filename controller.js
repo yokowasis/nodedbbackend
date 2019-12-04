@@ -159,7 +159,7 @@ exports.savekunci = async function(req, res) {
 }
 
 exports.mapels = async function(req, res) {
-    rows = await dbQuery("SELECT * FROM `mapel`"); 
+    var rows = await dbQuery("SELECT * FROM `mapel`"); 
     response.ok(rows, res);
 };
 
