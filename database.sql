@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3212
--- Generation Time: Dec 04, 2019 at 01:26 PM
+-- Generation Time: Dec 04, 2019 at 09:07 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.1.28
 
@@ -32,8 +32,8 @@ CREATE TABLE `datamapel` (
   `id` int(11) NOT NULL,
   `kode` varchar(100) NOT NULL,
   `no` int(11) NOT NULL,
-  `kunci` varchar(3) NOT NULL,
-  `skor` varchar(3) NOT NULL,
+  `kunci` varchar(255) NOT NULL,
+  `skor` varchar(255) NOT NULL,
   `grouping` varchar(3) NOT NULL,
   `lockn` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -140,3 +140,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
