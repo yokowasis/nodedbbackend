@@ -213,18 +213,21 @@ exports.rekap = async function (req, res) {
     var i = 0;
     var s = "";
 
-    for (const element of rows) {
+    for (const hasil of rows) {
         i++;
-        var nilai = await hitungNilai(element.mapel,element.jawaban);
+        var nilai = await hitungNilai(hasil.mapel,hasil.jawaban);
+        var siswa = await dbQuery("SELECT * FROM siswa WHERE username = ? AND mapel = ? LIMIT 1",[
+            hasil.username, hasil.mapel
+        ])
         s += i + ";";
-        s += "-;";
-        s += "-;";
-        s += element.username + ";";
-        s += element.mapel + ";";
+        s += `${siswa[0].sekolah};`;
+        s += `${siswa[0].nama};`;
+        s += hasil.username + ";";
+        s += hasil.mapel + ";";
         s += "" + ";";
         s += nilai + ";";
         s += "" + ";";
-        s += element.jawaban + "|";
+        s += hasil.jawaban + "|";
         // console.log("Process");        
     }
     res.send(s);

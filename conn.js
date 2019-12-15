@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 var pool = mysql.createPool({
-  connectionLimit : 100000,
+  connectionLimit : 10000,
   queueLimit : 0,
   host: process.env.DBHOST,
   port: process.env.DBPORT,
