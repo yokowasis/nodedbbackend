@@ -1,25 +1,16 @@
 var mysql = require('mysql');
+const dotenv = require('dotenv');
+dotenv.config();
 
-// var con = mysql.createConnection({
-//   host: "192.168.6.2",
-//   user: "root",
-//   password: "IPBnds83715",
-//   multipleStatements : true,
-//   database: "nodedb"
-// });
-
-var con = mysql.createConnection({
-  host: "localhost",
-  port: "3212",
-  user: "root",
-  password: "",
+var pool = mysql.createPool({
+  connectionLimit : 100000,
+  queueLimit : 0,
+  host: process.env.DBHOST,
+  port: process.env.DBPORT,
+  user: process.env.DBUSER,
+  password: process.env.DBPASSWORD,
   multipleStatements : true,
-  database: "nodedb"
+  database: process.env.DBNAME
 });
 
-con.connect(function (err){
-    if(err) throw err;
-});
-
-module.exports = con;
-
+module.exports = pool;

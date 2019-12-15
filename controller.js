@@ -1,11 +1,11 @@
 'use strict';
 
 var response = require('./res');
-var connection = require('./conn');
+var pool = require('./conn');
 
 async function dbQuery(sql, params = []) {
     return new Promise((resolve, reject)=>{
-        connection.query(sql,
+        pool.query(sql,
         params, 
         function (error, rows, fields){
             if(error){
@@ -41,7 +41,7 @@ async function hitungNilai(mapel, jawaban) {
 }
 
 exports.users = function(req, res) {
-    connection.query('SELECT * FROM siswa', function (error, rows, fields){
+    pool.query('SELECT * FROM siswa', function (error, rows, fields){
         if(error){
             console.log(error)
         } else{
@@ -54,7 +54,7 @@ exports.ceknilai = function(req, res) {
     var username = req.params.username;
     var mapel = req.params.mapel;
 
-    connection.query('SELECT * FROM hasil where username = ? AND mapel = ?',
+    pool.query('SELECT * FROM hasil where username = ? AND mapel = ?',
     [ username, mapel  ], 
     function (error, rows, fields){
         if(error){
@@ -73,7 +73,7 @@ exports.findUsers = function(req, res) {
     var password = req.params.password;
     var mapel = req.params.mapel;
 
-    connection.query('SELECT * FROM siswa where username = ? AND password = ? AND mapel = ?',
+    pool.query('SELECT * FROM siswa where username = ? AND password = ? AND mapel = ?',
     [ username, password, mapel  ], 
     function (error, rows, fields){
         if(error){
@@ -91,7 +91,7 @@ exports.kumpul = function(req, res) {
     var jawaban = req.body.jawaban;
 
     // Ambil Data Test
-    connection.query("SELECT no,kunci,skor FROM datamapel WHERE kode = ? ORDER BY no", 
+    pool.query("SELECT no,kunci,skor FROM datamapel WHERE kode = ? ORDER BY no", 
     [ mapel ], 
     function(error, rows, fields){
         if(error){
@@ -121,7 +121,7 @@ exports.kumpul = function(req, res) {
 
 
             // Save Skor
-            connection.query("INSERT INTO `hasil` (`username`, `mapel`, `nilai`, `jawaban`) VALUES (?, ?, ?, ?)",
+            pool.query("INSERT INTO `hasil` (`username`, `mapel`, `nilai`, `jawaban`) VALUES (?, ?, ?, ?)",
             [ username, mapel, skor, s ],
             function(error, rows, fields){
                 if (error) {
