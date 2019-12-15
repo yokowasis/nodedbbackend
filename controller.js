@@ -209,7 +209,7 @@ exports.uploadsiswa = async function(req, res) {
 
 exports.rekap = async function (req, res) {
     var mapel = req.query.aktif;
-    var rows = await dbQuery("SELECT * FROM `hasil` WHERE mapel = ? ", [ mapel ]);
+    var rows = await dbQuery("SELECT * FROM `hasil` WHERE mapel = ? GROUP BY username,mapel ORDER BY id", [ mapel ]);
     var i = 0;
     var s = "";
 
