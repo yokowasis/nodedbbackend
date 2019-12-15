@@ -84,54 +84,55 @@ exports.findUsers = function(req, res) {
     });
 };
 
-exports.kumpul = function(req, res) {
+exports.kumpul = async function(req, res) {
     
     var username = req.params.username;
     var mapel = req.params.mapel;
     var jawaban = req.body.jawaban;
 
-    // Ambil Data Test
-    pool.query("SELECT no,kunci,skor FROM datamapel WHERE kode = ? ORDER BY no", 
-    [ mapel ], 
-    function(error, rows, fields){
-        if(error){
-            console.log(error)
-        } else{
+    var hasil = await dbQuery("SELECT * FROM hasil WHERE username = ? AND mapel = ?",[
+        username, mapel
+    ]);
 
-            var s = "";
+    if (hasil.length) {
+        response.ok(hasil[0].nilai,res);
+        return;
+    }
 
-            // Periksa Skor
-            var skor = 0;
-          	var i = 0;
-          
-          	for (let item in jawaban) {
-                s += jawaban[item] + ";";
-                try {
-                    if (jawaban[item] == rows[i].kunci) {
-                        skor += (rows[i].skor * 1);
-                    }            
-                }
-                catch(err) {
-                    console.log(err);
-                }              
-              	i++;
-            }
+    var datamapel = await dbQuery("SELECT no,kunci,skor FROM datamapel WHERE kode = ? ORDER BY no", 
+    [ mapel ]);
 
-            skor = Math.round(skor * 100) / 100;
+    var s = "";
 
+    // Periksa Skor
+    var skor = 0;
+    var i = 0;
 
-            // Save Skor
-            pool.query("INSERT INTO `hasil` (`username`, `mapel`, `nilai`, `jawaban`) VALUES (?, ?, ?, ?)",
-            [ username, mapel, skor, s ],
-            function(error, rows, fields){
-                if (error) {
-                    console.log (error)
-                } else {
-                    response.ok(skor,res);
-                }
-            })
+    for (let item in jawaban) {
+        s += jawaban[item] + ";";
+        try {
+            if (jawaban[item] == datamapel[i].kunci) {
+                skor += (datamapel[i].skor * 1);
+            }            
         }
-    });
+        catch(err) {
+            console.log(err);
+        }              
+        i++;
+    }
+
+    skor = Math.round(skor * 100) / 100;
+
+    // Save Skor
+    dbQuery("INSERT INTO `hasil` (`username`, `mapel`, `nilai`, `jawaban`) VALUES (?, ?, ?, ?)",
+    [ username, mapel, skor, s ])
+    .then( () =>{
+        response.ok(skor,res);
+    })
+    .catch( err =>{
+        console.log (err);
+        response.ok(err,res);
+    })
 };
 
 exports.savemapel = async function(req, res) {
